@@ -1,7 +1,6 @@
 use std::io::Read;
 
 
-
 pub fn request_to_all(start_date: &str, end_date: &str) -> crate::Result<()> {
     let url_test = "https://services.nvd.nist.gov/rest/json/cves/2.0";
 
