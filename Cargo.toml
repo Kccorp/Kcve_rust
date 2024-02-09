@@ -14,3 +14,4 @@ url = "2.5.0"
 argparse-rs = "0.1.0"
 clap = { version = "4.5.0", features = ["derive"] }
 chrono = "0.4.33"
+regex = "1.10.3"

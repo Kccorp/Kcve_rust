@@ -1,10 +1,12 @@
-mod request;
 mod unit_test;
+mod request;
+mod function;
 
 use request::request_to_all;
+use function::controller_check_and_reformate_date;
+
+use regex::Regex;
 use error_chain::error_chain;
-
-
 use clap::{Parser, Subcommand};
 use chrono::{Local, DateTime, TimeZone};
 
@@ -31,6 +33,9 @@ struct Args {
     end_date: String,
 }
 
+
+
+
 fn main() {
 
     // if let Err(ref e) = request_to_all("2023-01-01T00:00:00.000", "2023-02-20T00:00:00.000") {
@@ -38,19 +43,13 @@ fn main() {
     //     println!("Error: {}", e.display_chain());
     //     std::process::exit(1);
     // }
-
-
-
-
     let args = Args::parse();
 
-    // check if the start date is older than the end date
-    if args.start_date > args.end_date {
-        println!("The start date is older than the end date!");
-        std::process::exit(1);
-    }
+
+    println!("The start :{} and the end :{}", args.start_date, args.end_date);
 
 
-    println!("The start :{} and the end :{}!", args.start_date, args.end_date);
+    controller_check_and_reformate_date(args.start_date, args.end_date);
+
 }
 
