@@ -46,10 +46,16 @@ fn main() {
     let args = Args::parse();
 
 
-    println!("The start :{} and the end :{}", args.start_date, args.end_date);
+    let vec_dates = controller_check_and_refactor_date(args.start_date, args.end_date);
 
+    println!("The start date is :{:?}", vec_dates[0]);
+    println!("The end date is :{:?}", vec_dates[1]);
 
-    controller_check_and_refactor_date(args.start_date, args.end_date);
+    if let Err(ref e) = request_to_all(vec_dates[0].as_str(), vec_dates[1].as_str()) {
+        use error_chain::ChainedError;
+        println!("Error: {}", e.display_chain());
+        std::process::exit(1);
+    }
 
 }
 

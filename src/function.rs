@@ -1,7 +1,7 @@
 use chrono::{DateTime, NaiveDate};
 use regex::Regex;
 
-pub fn controller_check_and_refactor_date(start_date : String, end_date: String){
+pub fn controller_check_and_refactor_date(start_date : String, end_date: String) -> Vec<String> {
 
     check_date_format_launcher(&start_date, &end_date);
 
@@ -13,16 +13,20 @@ pub fn controller_check_and_refactor_date(start_date : String, end_date: String)
 
     check_order_date(start_date, end_date);
 
-    println!("The start date is :{:?}", start_date);
-    println!("The end date is :{:?}", end_date);
-
-
-
+    let vec_of_dates = vec![start_date.to_rfc3339().to_string(), end_date.to_rfc3339().to_string()];
+    vec_of_dates
 }
 
 fn check_date_format_launcher(start_date : &String, end_date: &String) {
     if !check_date_format(&start_date) || !check_date_format(&end_date) {
         println!("The date is not in the correct format! (YYYY-MM-DD) or (YYYY/MM/DD) or (YYYY.MM.DD)");
+        std::process::exit(1);
+    }
+}
+
+fn check_order_date(start_date: DateTime<chrono::Utc>, end_date: DateTime<chrono::Utc>) {
+    if start_date > end_date {
+        println!("The start date is greater than the end date!");
         std::process::exit(1);
     }
 }
@@ -48,10 +52,3 @@ fn refactor_date_str_to_utc(date: &str) -> DateTime<chrono::Utc>  {
     date
 }
 
-fn check_order_date(start_date: DateTime<chrono::Utc>, end_date: DateTime<chrono::Utc>) -> bool {
-    if start_date > end_date {
-        println!("The start date is greater than the end date!");
-        std::process::exit(1);
-    }
-    true
-}
