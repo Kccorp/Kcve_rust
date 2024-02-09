@@ -1,11 +1,9 @@
 mod request;
-
 mod unit_test;
-
-use std::env::args;
 
 use request::request_to_all;
 use error_chain::error_chain;
+
 
 use clap::{Parser, Subcommand};
 use chrono::{Local, DateTime, TimeZone};
@@ -42,6 +40,8 @@ fn main() {
     // }
 
 
+
+
     let args = Args::parse();
 
     // check if the start date is older than the end date
@@ -52,15 +52,5 @@ fn main() {
 
 
     println!("The start :{} and the end :{}!", args.start_date, args.end_date);
-
-
-
-
-    // let pattern = std::env::args().nth(1).expect("no pattern given");
-    // let path = std::env::args().nth(2).expect("no path given");
-
-    // println!("pattern: {:?}, path: {:?}", pattern, path)
-
-
 }
 

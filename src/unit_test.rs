@@ -1,8 +1,8 @@
 use std::io::Read;
 
-
-#[cfg(test)]
-pub fn request_to_all() -> crate::Result<()> {
+/// This function makes a request to the NVD API to get all the CVEs that were published between the start and end date
+#[test]
+pub fn request_to_all_test() -> crate::Result<()> {
 
     let start_date = "2023-01-01T00:00:00.000";
     let end_date = "2023-02-20T00:00:00.000";
