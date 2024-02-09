@@ -3,7 +3,7 @@ mod request;
 mod function;
 
 use request::request_to_all;
-use function::controller_check_and_reformate_date;
+use function::controller_check_and_refactor_date;
 
 use regex::Regex;
 use error_chain::error_chain;
@@ -49,7 +49,7 @@ fn main() {
     println!("The start :{} and the end :{}", args.start_date, args.end_date);
 
 
-    controller_check_and_reformate_date(args.start_date, args.end_date);
+    controller_check_and_refactor_date(args.start_date, args.end_date);
 
 }
 
