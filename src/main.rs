@@ -1,13 +1,14 @@
 mod request;
-extern crate argparse_rs;
 
+mod unit_test;
 
 use std::env::args;
-use argparse_rs::{ArgParser, ArgType, hashmap_parser, vec_parser};
-use std::collections::HashMap;
+
 use request::request_to_all;
 use error_chain::error_chain;
 
+use clap::{Parser, Subcommand};
+use chrono::{Local, DateTime, TimeZone};
 
 error_chain! {
     foreign_links {
@@ -18,6 +19,20 @@ error_chain! {
     }
 }
 
+/// Simple program to greet a person
+#[derive(Parser, Debug)]
+#[command(version, about, long_about=None)]
+struct Args {
+    /// The date to start the search
+    #[arg(short, long = "start")]
+    // #[arg(short, long = "start", default_value = "2023-01-01T00:00:00.000")]
+    start_date: String,
+
+    /// The date to end the search
+    #[arg(short, long = "end")]
+    end_date: String,
+}
+
 fn main() {
 
     // if let Err(ref e) = request_to_all("2023-01-01T00:00:00.000", "2023-02-20T00:00:00.000") {
@@ -26,21 +41,18 @@ fn main() {
     //     std::process::exit(1);
     // }
 
-    let mut parser = ArgParser::new("argparse".into());
 
-    parser.add_opt("Name", None, 'n', true, "provide name", ArgType::Option);
-    parser.add_opt("Age", None, 'a', true, "provide age", ArgType::Option);
+    let args = Args::parse();
 
-    // read the arguments and print arguments
-    let args: Vec<String> = args().collect();
+    // check if the start date is older than the end date
+    if args.start_date > args.end_date {
+        println!("The start date is older than the end date!");
+        std::process::exit(1);
+    }
 
-    let args = args.iter().skip(1);
 
-    let mut args = parser.parse(args).unwrap();
+    println!("The start :{} and the end :{}!", args.start_date, args.end_date);
 
-    // only the first argument is the name of the program
-
-    println!("{:?}", args);
 
 
 

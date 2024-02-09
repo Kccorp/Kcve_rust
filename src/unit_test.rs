@@ -1,7 +1,12 @@
 use std::io::Read;
 
-/// This function makes a request to the NVD API to get all the CVEs that were published between the start and end date
-pub fn request_to_all(start_date: &str, end_date: &str) -> crate::Result<()> {
+
+#[cfg(test)]
+pub fn request_to_all() -> crate::Result<()> {
+
+    let start_date = "2023-01-01T00:00:00.000";
+    let end_date = "2023-02-20T00:00:00.000";
+
     let url_test = "https://services.nvd.nist.gov/rest/json/cves/2.0";
 
     let params =[
