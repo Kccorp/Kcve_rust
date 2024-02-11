@@ -14,6 +14,8 @@ pub fn controller_check_and_refactor_date(start_date : String, end_date: String)
     check_order_date(start_date, end_date);
 
     let vec_of_dates = vec![start_date.to_rfc3339().to_string(), end_date.to_rfc3339().to_string()];
+    
+    
     vec_of_dates
 }
 

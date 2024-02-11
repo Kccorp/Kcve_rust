@@ -1,7 +1,6 @@
-//import cve.rs file
 use crate::cve::Cve;
 
-pub fn parse_cve_json(json: serde_json::Value) -> Vec<Cve> {
+pub fn parse_cve_json(json: serde_json::Value)  {
     let cve_json = json["vulnerabilities"].as_array().unwrap();
     let mut cve_vec = Vec::new();
 
@@ -13,15 +12,53 @@ pub fn parse_cve_json(json: serde_json::Value) -> Vec<Cve> {
         let cve_score = cve["cve"]["metrics"]["cvssMetricV31"][0]["cvssData"]["baseScore"].as_number().unwrap().to_string();
         let cve_vector = cve["cve"]["metrics"]["cvssMetricV31"][0]["cvssData"]["vectorString"].as_str().unwrap().to_string();
         let exploit_score = cve["cve"]["metrics"]["cvssMetricV31"][0]["exploitabilityScore"].as_number().unwrap().to_string();
+        let url = cve["cve"]["references"][0]["url"].as_str().unwrap().to_string();
 
 
 
-        let cve = Cve::new(cve_id, cve_description, cve_published_date, cve_score, cve_vector, exploit_score, cve_last_modified_date);
+        let cve = Cve::new(cve_id, cve_description, cve_published_date, cve_score, cve_vector, exploit_score, cve_last_modified_date, url);
         cve_vec.push(cve);
         // println!("cve: {:?} Description: {:?} Published date: {:?} Last_modified_date: {:?} exploit_score: {:?} BaseScore: {:?} Vector: {:?}",
         //          cve_id, cve_description, cve_published_date, cve_last_modified_date, exploit_score, cve_score, cve_vector);
 
     }
 
-    cve_vec
+    make_choice_to_show_cve(cve_vec);
+}
+
+fn make_choice_to_show_cve(cve_vec: Vec<Cve>){
+    if cve_vec.len() == 0 {
+        println!("No CVEs found!");
+    } else {
+        println!("{:?} CVE found !", cve_vec.len());
+        println!("Display all cve found: 1");
+        println!("Choose the cve to display: 2");
+        let mut choice = String::new();
+        std::io::stdin().read_line(&mut choice).unwrap();
+        let choice = choice.trim().parse::<i32>().unwrap();
+        match choice {
+            1 => {
+                for cve in &cve_vec {
+                    Cve::show_cve(&cve);
+                }
+            },
+            2 => {
+                for cve in &cve_vec {
+                    Cve::show_cve_id(&cve);
+                }
+                println!("Enter the cve id to display: ");
+                let mut cve_id = String::new();
+                std::io::stdin().read_line(&mut cve_id).unwrap();
+                let cve_id = cve_id.trim().to_string();
+                for cve in &cve_vec {
+                    if cve.cve_id == cve_id {
+                        Cve::show_cve(&cve);
+                    }
+                }
+            },
+            _ => {
+                println!("Invalid choice");
+            }
+        }
+    }
 }

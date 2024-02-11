@@ -1,7 +1,4 @@
-use std::arch::x86_64::_mm_cvtss_f32;
 use colored::Colorize;
-use serde_json::to_string;
-use url::form_urlencoded::parse;
 
 pub struct Cve {
     pub cve_id: String,
@@ -11,10 +8,12 @@ pub struct Cve {
     pub cve_vector: String,
     pub exploit_score: String,
     pub cve_last_modified_date: String,
+    pub url: String,
 }
 
 impl Cve {
-    pub fn new(cve_id: String, cve_description: String, cve_published_date: String, cve_score: String, cve_vector: String, exploit_score: String, cve_last_modified_date: String) -> Cve {
+    pub fn new(cve_id: String, cve_description: String, cve_published_date: String, cve_score: String,
+               cve_vector: String, exploit_score: String, cve_last_modified_date: String, url: String) -> Cve {
         Cve {
             cve_id,
             cve_description,
@@ -23,6 +22,7 @@ impl Cve {
             cve_vector,
             exploit_score,
             cve_last_modified_date,
+            url,
         }
     }
 
@@ -44,7 +44,15 @@ impl Cve {
             println!("## CVE Score: {} ", self.cve_score.red());
         }
         println!("## CVE Vector: {} ", self.cve_vector);
-        println!("## Exploit Score: {} ", self.exploit_score);
-        println!("-----------------------------------\n");
+        let cve_exploit_score = self.exploit_score.parse::<f32>().unwrap() as i32;
+        if cve_exploit_score < 4 {
+            println!("## CVE Score: {} ", self.exploit_score.green());
+        } else if cve_exploit_score < 5 {
+            println!("## CVE Score: {} ", self.exploit_score.yellow());
+        } else {
+            println!("## CVE Score: {} ", self.exploit_score.red());
+        }
+        println!("## URL: {} ", self.url);
+        println!("------------------------------------------------\n");
     }
 }

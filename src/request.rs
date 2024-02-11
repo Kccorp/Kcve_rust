@@ -1,4 +1,5 @@
 use std::io::Read;
+use crate::parse;
 
 #[derive(Debug)]
 struct Params {
@@ -41,12 +42,18 @@ impl IntoIterator for &Params {
 }
 
 
-pub fn request_controller(start_date: &str, end_date: &str, keyword: Option<String>) -> crate::Result<serde_json::Value> {
+pub fn request_controller(start_date: &str, end_date: &str, keyword: Option<String>)  {
     return if keyword == None {
-        request_to_all(start_date, end_date)
+        let response = request_to_all(start_date, end_date);
+        let response_json : serde_json::Value = response.unwrap();
+        parse::parse_cve_json(response_json);
     } else {
-        request_to_keyword(start_date, end_date, keyword.unwrap().as_str())
+        let response = request_to_keyword(start_date, end_date, keyword.unwrap().as_str());
+        let response_json : serde_json::Value = response.unwrap();
+        parse::parse_cve_json(response_json);
     }
+
+
 }
 
 /// This function makes a request to the NVD API to get all the CVEs that were published between the start and end date
