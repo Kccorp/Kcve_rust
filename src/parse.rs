@@ -1,5 +1,8 @@
 use crate::cve::Cve;
 
+/// This function is used to parse the JSON received from the NVD API. It takes the JSON as parameter,
+/// and then it parses the JSON to get the CVEs found. It creates a vector of CVEs, and then it calls
+/// the function make_choice_to_show_cve to display the CVEs found.
 pub fn parse_cve_json(json: serde_json::Value)  {
     let cve_json = json["vulnerabilities"].as_array().unwrap();
     let mut cve_vec = Vec::new();
@@ -26,6 +29,9 @@ pub fn parse_cve_json(json: serde_json::Value)  {
     make_choice_to_show_cve(cve_vec);
 }
 
+/// This function is used to display the CVEs found. It asks the user if he wants to display all the CVEs
+/// found or if he wants to choose a specific CVE to display. If the user chooses to display a specific CVE
+/// it asks the user to enter the CVE id, and then it displays the CVE with the entered id.
 fn make_choice_to_show_cve(cve_vec: Vec<Cve>){
     if cve_vec.len() == 0 {
         println!("No CVEs found!");

@@ -11,7 +11,6 @@ use error_chain::error_chain;
 use clap::{Parser};
 
 
-
 error_chain! {
     foreign_links {
         Io(std::io::Error);
@@ -41,7 +40,8 @@ struct Args {
 
 
 
-
+/// Main function to start the program. It parses the arguments and calls the functions to check and 
+/// refactor the date and to request the NVD API.
 fn main() {
 
     // parse args

@@ -1,5 +1,7 @@
 use colored::Colorize;
 
+/// This struct represents a CVE (Common Vulnerabilities and Exposures) with its attributes. It can 
+/// be used to create a CVE object and to display the CVE information.
 pub struct Cve {
     pub cve_id: String,
     pub cve_description: String,
@@ -12,6 +14,9 @@ pub struct Cve {
 }
 
 impl Cve {
+    
+    /// This function creates a new CVE object with the given attributes. Create a new CVE object with
+    /// the keyword NEW and the attributes of the CVE.
     pub fn new(cve_id: String, cve_description: String, cve_published_date: String, cve_score: String,
                cve_vector: String, exploit_score: String, cve_last_modified_date: String, url: String) -> Cve {
         Cve {
@@ -26,10 +31,15 @@ impl Cve {
         }
     }
 
+    /// This function displays the CVE ID of the CVE object. It uses the colored crate to display the
     pub fn show_cve_id(&self) {
         println!("CVE ID: {} ", self.cve_id.red());
     }
 
+    /// This function displays the CVE information of the CVE object. It uses the colored crate to display the
+    /// CVE ID in red, the CVE Score in green if it's less than 5, in yellow if it's less than 8 and in red
+    /// if it's greater than 8. It uses the blue color to display the CVE Last Modified Date and the CVE Published
+    /// Date.
     pub fn show_cve(&self) {
         println!("----------## CVE ID: {} ##----------", self.cve_id.red());
         println!("## CVE Description: {} ", self.cve_description);

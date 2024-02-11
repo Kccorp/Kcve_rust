@@ -1,6 +1,9 @@
 use chrono::{DateTime, NaiveDate};
 use regex::Regex;
 
+/// This function receives the start and end date and checks if the date is in the correct format.
+/// If it's not, the program will exit with an error message. Then, it refactors the date to the
+/// format YYYY-MM-DD and returns a vector with the start and end date in the format YYYY-MM-DD.
 pub fn controller_check_and_refactor_date(start_date : String, end_date: String) -> Vec<String> {
 
     check_date_format_launcher(&start_date, &end_date);
@@ -19,6 +22,8 @@ pub fn controller_check_and_refactor_date(start_date : String, end_date: String)
     vec_of_dates
 }
 
+/// This function checks if the date is in the correct format. If it's not, the program will exit
+/// with an error message.
 fn check_date_format_launcher(start_date : &String, end_date: &String) {
     if !check_date_format(&start_date) || !check_date_format(&end_date) {
         println!("The date is not in the correct format! (YYYY-MM-DD) or (YYYY/MM/DD) or (YYYY.MM.DD)");
@@ -26,6 +31,8 @@ fn check_date_format_launcher(start_date : &String, end_date: &String) {
     }
 }
 
+/// This function checks if the start date is greater than the end date. If it is, the program will
+/// exit with an error message.
 fn check_order_date(start_date: DateTime<chrono::Utc>, end_date: DateTime<chrono::Utc>) {
     if start_date > end_date {
         println!("The start date is greater than the end date!");
@@ -41,12 +48,16 @@ fn check_date_format(date: &String) -> bool {
     checked_date
 }
 
+/// This function receives a date in the format YYYY/MM/DD or YYYY.MM.DD or YYYY.MM.DD and returns 
+/// the date in the format YYYY-MM-DD.
 fn refactor_date_unify_separator(date: &String) -> String {
     let re = Regex::new(r"[- /.]").unwrap();
     let date = re.replace_all(date.as_str(), "-");
     date.to_string()
 }
 
+/// This function receives a date in the format YYYY-MM-DD and returns a DateTime<chrono::Utc>
+/// with the time set to 00:00:00.000
 fn refactor_date_str_to_utc(date: &str) -> DateTime<chrono::Utc>  {
     let date = NaiveDate::parse_from_str(date, "%Y-%m-%d").unwrap();
     let date = date.and_hms_opt(0, 0, 0);
