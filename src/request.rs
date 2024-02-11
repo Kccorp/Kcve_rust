@@ -57,8 +57,6 @@ pub fn request_controller(start_date: &str, end_date: &str, keyword: Option<Stri
         let response_json : serde_json::Value = response.unwrap();
         parse::parse_cve_json(response_json);
     }
-
-
 }
 
 /// This function prepares the request to the NVD API to get all the CVEs that were published between
@@ -112,8 +110,8 @@ fn request_to_keyword(start_date: &str, end_date: &str, keyword: &str) -> crate:
 /// or an error
 fn http_get_request(url: &str, params: Params) -> crate::Result<String> {
 
-    let url_test = reqwest::Url::parse_with_params(url, &params)?;
-    let mut res = reqwest::blocking::get(url_test)?;
+    let http_get_request = reqwest::Url::parse_with_params(url, &params)?;
+    let mut res = reqwest::blocking::get(http_get_request)?;
     let mut body = String::new();
     res.read_to_string(&mut body)?;
 

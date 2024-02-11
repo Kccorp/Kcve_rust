@@ -21,9 +21,6 @@ pub fn parse_cve_json(json: serde_json::Value)  {
 
         let cve = Cve::new(cve_id, cve_description, cve_published_date, cve_score, cve_vector, exploit_score, cve_last_modified_date, url);
         cve_vec.push(cve);
-        // println!("cve: {:?} Description: {:?} Published date: {:?} Last_modified_date: {:?} exploit_score: {:?} BaseScore: {:?} Vector: {:?}",
-        //          cve_id, cve_description, cve_published_date, cve_last_modified_date, exploit_score, cve_score, cve_vector);
-
     }
 
     make_choice_to_show_cve(cve_vec);
