@@ -1,27 +1,14 @@
-POUR un équivalent classe en rust utiliser des struct et des impl(methode)
+# KcVE_Rust
+KcVE is a comprehensive CVE (Common Vulnerabilities and Exposures) tool write in rust that allows users to gather and parse information about the latest vulnerabilities from publicly available sources. It features are easy-to-use that allows users to access informations with just a few clicks.
 
-```rust
-#[derive(Debug)]
-struct Rectangle {
-    width: u32,
-    height: u32,
-}
+The app exports the information in an HTML format, making it easy to share and analyze. This tool is ideal for security professionals, researchers, and others who need to stay informed about the latest vulnerabilities and ensure the security of their systems.
 
-impl Rectangle {
-    fn area(&self) -> u32 {
-        self.width * self.height
-    }
-}
+With KcVE, users can access the latest information about CVEs quickly and efficiently, giving them the ability to take action to protect their systems and data.
 
-fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
+## Usage
 
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        rect1.area()
-    );
-}
+### Option 1: run from source
+
+```bash
+cargo run -- [-h] -s STARTDATE -e ENDDATE [-k KEYWORD]
 ```
